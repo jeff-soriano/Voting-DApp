@@ -65,6 +65,22 @@ contract Voting {
         _;
     }
 
+    /// Get the string value of the voting phase
+    /// @dev returns the string value of the state variable 'votingPhase'
+    function getVotingPhase() public view returns (string memory) {
+        string memory _votingPhase;
+
+        if (votingPhase == VotingPhase.Registration) {
+            _votingPhase = "Registration";
+        } else if (votingPhase == VotingPhase.Voting) {
+            _votingPhase = "Voting";
+        } else if (votingPhase == VotingPhase.Closed) {
+            _votingPhase = "Closed";
+        }
+
+        return _votingPhase;
+    }
+
     /// Moves to the next phase of voting
     /// @dev sets the state variable 'votingPhase' to the next part
     function moveToNextPhase() public restrictedToManager {
@@ -93,21 +109,5 @@ contract Voting {
         );
 
         registeredVoters[msg.sender] = true;
-    }
-
-    /// Get the string value of the voting phase
-    /// @dev returns the string value of the state variable 'votingPhase'
-    function getVotingPhase() public view returns (string memory) {
-        string memory _votingPhase;
-
-        if (votingPhase == VotingPhase.Registration) {
-            _votingPhase = "Registration";
-        } else if (votingPhase == VotingPhase.Voting) {
-            _votingPhase = "Voting";
-        } else if (votingPhase == VotingPhase.Closed) {
-            _votingPhase = "Closed";
-        }
-
-        return _votingPhase;
     }
 }

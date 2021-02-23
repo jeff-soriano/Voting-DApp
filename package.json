@@ -1,0 +1,22 @@
+{
+  "name": "voting-dapp",
+  "version": "1.0.0",
+  "description": "Simple voting DApp that lets voters choose between two options",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-soriano/Voting-DApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeff-soriano/Voting-DApp/issues"
+  },
+  "homepage": "https://github.com/jeff-soriano/Voting-DApp#readme",
+  "devDependencies": {
+    "hardhat": "^2.0.11"
+  }
+}

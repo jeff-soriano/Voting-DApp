@@ -80,6 +80,21 @@ contract Voting {
         }
     }
 
+    /// Register to vote
+    /// @dev sets the state variable mapping of 'registeredVoters[msg.sender]' to true
+    function registerToVote() public {
+        require(
+            registeredVoters[msg.sender] == false,
+            "Address is already a registered voter."
+        );
+        require(
+            votingPhase == VotingPhase.Registration,
+            "Voting phase is not set to registration. Cannot register to vote."
+        );
+
+        registeredVoters[msg.sender] = true;
+    }
+
     /// Get the string value of the voting phase
     /// @dev returns the string value of the state variable 'votingPhase'
     function getVotingPhase() public view returns (string memory) {

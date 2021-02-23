@@ -91,8 +91,10 @@ contract Voting {
 
         if (votingPhase == VotingPhase.Registration) {
             votingPhase = VotingPhase.Voting;
+            actualVotingDate = block.timestamp;
         } else if (votingPhase == VotingPhase.Voting) {
             votingPhase = VotingPhase.Closed;
+            actualClosingDate = block.timestamp;
         }
     }
 

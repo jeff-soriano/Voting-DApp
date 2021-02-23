@@ -110,4 +110,27 @@ contract Voting {
 
         registeredVoters[msg.sender] = true;
     }
+
+    /// Vote
+    /// @param isOptionA boolean that determines whether or not to vote for optionA
+    /// @dev increments the 'count' variable of either optionA or optionB, then sets 'voters[msg.sender]' to true
+    function vote(bool isOptionA) public {
+        require(
+            registeredVoters[msg.sender] == true,
+            "Address is not registered to vote"
+        );
+        require(voters[msg.sender] == false, "Address has already voted");
+        require(
+            votingPhase == VotingPhase.Voting,
+            "Voting phase is not set to voting. Cannot vote at this time"
+        );
+
+        if (isOptionA) {
+            optionA.count++;
+        } else {
+            optionB.count++;
+        }
+
+        voters[msg.sender] = true;
+    }
 }

@@ -31,6 +31,7 @@ contract Voting {
     /// @param optionBDescription the description of optionB
     /// @param _intendedVotingDate the intended date that the manager will move the contract to the Voting phase, in Unix time
     /// @param _intendedClosingDate the intended date that the manager will move the contract to the Closed phase, in Unix time
+    /// @dev sets values of all state variables except 'registeredVoters' and 'voters'
     constructor(
         string memory _description,
         string memory optionADescription,
@@ -64,7 +65,8 @@ contract Voting {
         _;
     }
 
-    /// Return the string value of votingPhase
+    /// Get the string value of the voting phase
+    /// @dev returns the string value of the state variable 'votingPhase'
     function getVotingPhase() public view returns (string memory) {
         string memory _votingPhase;
 

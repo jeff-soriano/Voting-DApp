@@ -20,23 +20,35 @@ contract Voting {
     mapping(address => bool) public registeredVoters;
     mapping(address => bool) public voters;
     string public description;
+    uint256 public intendedVotingDate;
+    uint256 public intendedClosingDate;
+    uint256 public actualVotingDate;
+    uint256 public actualClosingDate;
 
     /// Constructor
     /// @param _description the description of the Voting contract that tells the voters what they're voting for
     /// @param optionADescription the description of optionA
     /// @param optionBDescription the description of optionB
+    /// @param _intendedVotingDate the intended date that the manager will move the contract to the Voting phase, in Unix time
+    /// @param _intendedClosingDate the intended date that the manager will move the contract to the Closed phase, in Unix time
     constructor(
         string memory _description,
         string memory optionADescription,
-        string memory optionBDescription
+        string memory optionBDescription,
+        uint256 _intendedVotingDate,
+        uint256 _intendedClosingDate
     ) {
         description = _description;
 
         optionA.description = optionADescription;
         optionA.count = 0;
-
         optionB.description = optionBDescription;
         optionB.count = 0;
+
+        intendedVotingDate = _intendedVotingDate;
+        intendedClosingDate = _intendedClosingDate;
+        actualVotingDate = 0;
+        actualClosingDate = 0;
 
         votingPhase = VotingPhase.Registration;
 

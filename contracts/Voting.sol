@@ -65,6 +65,21 @@ contract Voting {
         _;
     }
 
+    /// Moves to the next phase of voting
+    /// @dev sets the state variable 'votingPhase' to the next part
+    function moveToNextPhase() public restrictedToManager {
+        require(
+            votingPhase != VotingPhase.Closed,
+            "Voting phase is set to Closed. Cannot move to next phase."
+        );
+
+        if (votingPhase == VotingPhase.Registration) {
+            votingPhase = VotingPhase.Voting;
+        } else if (votingPhase == VotingPhase.Voting) {
+            votingPhase = VotingPhase.Closed;
+        }
+    }
+
     /// Get the string value of the voting phase
     /// @dev returns the string value of the state variable 'votingPhase'
     function getVotingPhase() public view returns (string memory) {

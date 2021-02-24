@@ -142,4 +142,28 @@ describe("Voter functions", () => {
             assert(error);
         }
     });
+
+    it("Allows an address to vote optionA", async () => {
+        await contractAsVoter.registerToVote();
+        await voting.moveToNextPhase();
+        await contractAsVoter.vote(true);
+
+        const optionA = await contractAsVoter.optionA();
+        const optionB = await contractAsVoter.optionB();
+
+        expect(optionA.count).to.equal(1);
+        expect(optionB.count).to.equal(0);
+    });
+
+    it("Allows an address to vote optionB", async () => {
+        await contractAsVoter.registerToVote();
+        await voting.moveToNextPhase();
+        await contractAsVoter.vote(false);
+
+        const optionA = await contractAsVoter.optionA();
+        const optionB = await contractAsVoter.optionB();
+
+        expect(optionA.count).to.equal(0);
+        expect(optionB.count).to.equal(1);
+    });
 });

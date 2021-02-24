@@ -26,6 +26,7 @@ contract Voting {
     uint256 public actualClosingDate;
 
     /// Constructor
+    /// @param _manager the address that will be managing this contract
     /// @param _description the description of the Voting contract that tells the voters what they're voting for
     /// @param optionADescription the description of optionA
     /// @param optionBDescription the description of optionB
@@ -33,12 +34,15 @@ contract Voting {
     /// @param _intendedClosingDate the intended date that the manager will move the contract to the Closed phase, in Unix time
     /// @dev sets values of all state variables except 'registeredVoters' and 'voters'
     constructor(
+        address _manager,
         string memory _description,
         string memory optionADescription,
         string memory optionBDescription,
         uint256 _intendedVotingDate,
         uint256 _intendedClosingDate
     ) {
+        manager = _manager;
+
         description = _description;
 
         optionA.description = optionADescription;
@@ -52,8 +56,6 @@ contract Voting {
         actualClosingDate = 0;
 
         votingPhase = VotingPhase.Registration;
-
-        manager = msg.sender;
     }
 
     /// Modifier that restricts certain functions for the manager only

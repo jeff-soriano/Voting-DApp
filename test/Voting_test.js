@@ -111,4 +111,14 @@ describe("Voter functions", () => {
         await contractAsVoter.registerToVote();
         expect(await voting.registeredVoters(voter.address)).to.equal(true);
     });
+
+    it("Doesn't allow you to register twice", async () => {
+        try {
+            await contractAsVoter.registerToVote();
+            await contractAsVoter.registerToVote();
+            assert(false);
+        } catch (error) {
+            assert(error);
+        }
+    })
 });

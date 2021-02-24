@@ -11,9 +11,12 @@ let accounts,
     Voting,
     voting,
     voter,
-    contractAsVoter;
+    contractAsVoter,
+    provider;
 
 beforeEach(async () => {
+    provider = ethers.getDefaultProvider();
+
     accounts = await ethers.getSigners();
     manager = accounts[0];
     voter = accounts[1];
@@ -103,6 +106,33 @@ describe("Manager functions", () => {
         } catch (error) {
             assert(error);
         }
+    });
+
+    it("Gets the correct timestamp when moving to Voting phase", async () => {
+        await voting.moveToNextPhase();
+
+        const actualVotingDate = await voting.actualVotingDate();
+        const blockNumber = await provider.getBlockNumber();
+        const block = await provider.getBlock(blockNumber);
+
+        // Expect the timestamps to be within a small range of each other
+        // TODO: Figure out how to get the exact timestamp that matches
+        // the Voting contract's
+        expect(actualVotingDate - block.timestamp).to.be.below(1000);
+    });
+
+    it("Gets the correct timestamp when moving to Closed phase", async () => {
+        await voting.moveToNextPhase();
+        await voting.moveToNextPhase();
+
+        const actualClosingDate = await voting.actualClosingDate();
+        const blockNumber = await provider.getBlockNumber();
+        const block = await provider.getBlock(blockNumber);
+
+        // Expect the timestamps to be within a small range of each other
+        // TODO: Figure out how to get the exact timestamp that matches
+        // the Voting contract's
+        expect(actualClosingDate - block.timestamp).to.be.below(1000);
     });
 });
 

@@ -53,4 +53,14 @@ describe("Voting functionality", () => {
         expect(await voting.getVotingPhase()).to.equal("Registration");
         expect(await voting.manager()).to.equal(account);
     });
+
+    it("Sets the next phase", async () => {
+        expect(await voting.getVotingPhase()).to.equal("Registration");
+
+        await voting.moveToNextPhase();
+        expect(await voting.getVotingPhase()).to.equal("Voting");
+
+        await voting.moveToNextPhase();
+        expect(await voting.getVotingPhase()).to.equal("Closed");
+    });
 });

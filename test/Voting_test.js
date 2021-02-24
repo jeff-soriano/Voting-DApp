@@ -1,18 +1,22 @@
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 
 let accounts,
-    account,
+    manager,
+    contractAsManager,
     description,
     optionADescription,
     optionBDescription,
     intendedVotingDate,
     intendedClosingDate,
     Voting,
-    voting;
+    voting,
+    voter,
+    contractAsVoter;
 
 beforeEach(async () => {
     accounts = await ethers.getSigners();
-    account = accounts[0].address;
+    manager = accounts[0];
+    voter = accounts[1];
 
     description = "Chocolate or vanilla?";
     optionADescription = "Chocolate";
@@ -29,6 +33,9 @@ beforeEach(async () => {
         intendedClosingDate);
 
     await voting.deployed();
+
+    contractAsManager = voting.connect(manager);
+    contractAsVoter = voting.connect(voter);
 });
 
 describe("Voting functionality", () => {
@@ -51,7 +58,7 @@ describe("Voting functionality", () => {
         expect(await voting.actualClosingDate()).to.equal(0);
 
         expect(await voting.getVotingPhase()).to.equal("Registration");
-        expect(await voting.manager()).to.equal(account);
+        expect(await voting.manager()).to.equal(manager.address);
     });
 
     it("Sets the next phase", async () => {
@@ -63,4 +70,22 @@ describe("Voting functionality", () => {
         await voting.moveToNextPhase();
         expect(await voting.getVotingPhase()).to.equal("Closed");
     });
+
+    it("Only allows the manager to set the next phase", async () => {
+        // Try with manager moving to next phase
+        try {
+            await contractAsManager.moveToNextPhase();
+            assert(true);
+        } catch (error) {
+            assert(false);
+        }
+
+        // Try with non-manager moving to next phase
+        try {
+            await contractAsVoter.moveToNextPhase();
+            assert(false);
+        } catch (error) {
+            assert(error);
+        }
+    })
 });

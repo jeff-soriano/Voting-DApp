@@ -21,10 +21,10 @@ describe("Voting initialization", () => {
 
         await voting.deployed();
 
-        expect(await voting.description()).to.equal(description);
-
         const optionA = await voting.optionA();
         const optionB = await voting.optionB();
+
+        expect(await voting.description()).to.equal(description);
 
         expect(optionA.description).to.equal(optionADescription);
         expect(optionA.count).to.equal(0);

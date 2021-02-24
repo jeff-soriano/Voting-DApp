@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 
-describe("Voting initialization", () => {
+describe("Voting functionality", () => {
     it("Initializes the state variables correctly", async () => {
         const accounts = await ethers.getSigners();
         const account = accounts[0].address;

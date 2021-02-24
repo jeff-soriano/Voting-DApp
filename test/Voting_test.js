@@ -190,4 +190,28 @@ describe("Voter functions", () => {
             assert(error);
         }
     });
+
+    it("Doesn't allow you to vote when in Registration phase", async () => {
+        await contractAsVoter.registerToVote();
+
+        try {
+            await contractAsVoter.vote(false);
+            assert(false, "Should not have been allowed to vote in Registration phase");
+        } catch (error) {
+            assert(error);
+        }
+    });
+
+    it("Doesn't allow you to vote when in Closed phase", async () => {
+        await contractAsVoter.registerToVote();
+        await voting.moveToNextPhase();
+        await voting.moveToNextPhase();
+
+        try {
+            await contractAsVoter.vote(false);
+            assert(false, "Should not have been allowed to vote in Closed phase");
+        } catch (error) {
+            assert(error);
+        }
+    });
 });

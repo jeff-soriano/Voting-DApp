@@ -105,3 +105,10 @@ describe("Manager functions", () => {
         }
     });
 });
+
+describe("Voter functions", () => {
+    it("Allows an address to register to vote", async () => {
+        contractAsVoter.registerToVote();
+        expect(await voting.registeredVoters(voter.address)).to.equal(true);
+    });
+});

@@ -87,5 +87,19 @@ describe("Voting functionality", () => {
         } catch (error) {
             assert(error);
         }
-    })
+    });
+
+    it("Only allows manager to set the next phase when not in Closed phase", async () => {
+        try {
+            // Registration -> Voting
+            await voting.moveToNextPhase();
+            // Voting -> Closed
+            await voting.moveToNextPhase();
+            // Closed -> Should throw error here
+            await voting.moveToNextPhase();
+            assert(false);
+        } catch (error) {
+            assert(error);
+        }
+    });
 });

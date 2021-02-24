@@ -29,6 +29,7 @@ beforeEach(async () => {
 
     Voting = await ethers.getContractFactory("Voting");
     voting = await Voting.deploy(
+        manager.address,
         description,
         optionADescription,
         optionBDescription,

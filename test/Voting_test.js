@@ -120,5 +120,26 @@ describe("Voter functions", () => {
         } catch (error) {
             assert(error);
         }
-    })
+    });
+
+    it("Doesn't allow you to register when in the Voting phase", async () => {
+        try {
+            await voting.moveToNextPhase();
+            await contractAsVoter.registerToVote();
+            assert(false);
+        } catch (error) {
+            assert(error);
+        }
+    });
+
+    it("Doesn't allow you to register when in the Closed phase", async () => {
+        try {
+            await voting.moveToNextPhase();
+            await voting.moveToNextPhase();
+            await contractAsVoter.registerToVote();
+            assert(false);
+        } catch (error) {
+            assert(error);
+        }
+    });
 });

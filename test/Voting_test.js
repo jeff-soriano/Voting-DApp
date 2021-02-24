@@ -79,13 +79,13 @@ describe("Manager functions", () => {
             await contractAsManager.moveToNextPhase();
             assert(true);
         } catch (error) {
-            assert(false);
+            assert(false, "Manager should have been allowed to set next phase");
         }
 
         // Try with non-manager moving to next phase
         try {
             await contractAsVoter.moveToNextPhase();
-            assert(false);
+            assert(false, "Non-manager should not have been allowed to set next phase");
         } catch (error) {
             assert(error);
         }
@@ -99,7 +99,7 @@ describe("Manager functions", () => {
             await voting.moveToNextPhase();
             // Closed -> Should throw error here
             await voting.moveToNextPhase();
-            assert(false);
+            assert(false, "Should not be allowed to set next phase when in Closed phase");
         } catch (error) {
             assert(error);
         }
@@ -116,7 +116,7 @@ describe("Voter functions", () => {
         try {
             await contractAsVoter.registerToVote();
             await contractAsVoter.registerToVote();
-            assert(false);
+            assert(false, "Should not be allowed to register twice");
         } catch (error) {
             assert(error);
         }
@@ -126,7 +126,7 @@ describe("Voter functions", () => {
         try {
             await voting.moveToNextPhase();
             await contractAsVoter.registerToVote();
-            assert(false);
+            assert(false, "Should not be allowed to register when in Voting phase");
         } catch (error) {
             assert(error);
         }
@@ -137,7 +137,7 @@ describe("Voter functions", () => {
             await voting.moveToNextPhase();
             await voting.moveToNextPhase();
             await contractAsVoter.registerToVote();
-            assert(false);
+            assert(false, "Should not be allowed to register when in Closed phase");
         } catch (error) {
             assert(error);
         }

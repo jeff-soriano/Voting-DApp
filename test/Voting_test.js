@@ -177,4 +177,17 @@ describe("Voter functions", () => {
             assert(error);
         }
     });
+
+    it("Doesn't allow you to vote twice", async () => {
+        await contractAsVoter.registerToVote();
+        await voting.moveToNextPhase();
+
+        try {
+            await contractAsVoter.vote(true);
+            await contractAsVoter.vote(true);
+            assert(false, "Should not have been allowed to vote twice");
+        } catch (error) {
+            assert(error);
+        }
+    });
 });

@@ -1,26 +1,38 @@
 const { expect } = require("chai");
 
+let accounts,
+    account,
+    description,
+    optionADescription,
+    optionBDescription,
+    intendedVotingDate,
+    intendedClosingDate,
+    Voting,
+    voting;
+
+beforeEach(async () => {
+    accounts = await ethers.getSigners();
+    account = accounts[0].address;
+
+    description = "Chocolate or vanilla?";
+    optionADescription = "Chocolate";
+    optionBDescription = "Vanilla";
+    intendedVotingDate = Math.floor(Date.now() / 1000 + 1000);
+    intendedClosingDate = Math.floor(Date.now() / 1000 + 100000);
+
+    Voting = await ethers.getContractFactory("Voting");
+    voting = await Voting.deploy(
+        description,
+        optionADescription,
+        optionBDescription,
+        intendedVotingDate,
+        intendedClosingDate);
+
+    await voting.deployed();
+});
+
 describe("Voting functionality", () => {
     it("Initializes the state variables correctly", async () => {
-        const accounts = await ethers.getSigners();
-        const account = accounts[0].address;
-
-        const description = "Chocolate or vanilla?";
-        const optionADescription = "Chocolate";
-        const optionBDescription = "Vanilla";
-        const intendedVotingDate = Math.floor(Date.now() / 1000 + 1000);
-        const intendedClosingDate = Math.floor(Date.now() / 1000 + 100000);
-
-        const Voting = await ethers.getContractFactory("Voting");
-        const voting = await Voting.deploy(
-            description,
-            optionADescription,
-            optionBDescription,
-            intendedVotingDate,
-            intendedClosingDate);
-
-        await voting.deployed();
-
         const optionA = await voting.optionA();
         const optionB = await voting.optionB();
 

@@ -166,4 +166,15 @@ describe("Voter functions", () => {
         expect(optionA.count).to.equal(0);
         expect(optionB.count).to.equal(1);
     });
+
+    it("Doesn't allow you to vote if you're not registered", async () => {
+        await voting.moveToNextPhase();
+
+        try {
+            await contractAsVoter.vote(true);
+            assert(false, "Should not have been allowed to vote when not registered");
+        } catch (error) {
+            assert(error);
+        }
+    });
 });

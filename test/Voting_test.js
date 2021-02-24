@@ -38,7 +38,7 @@ beforeEach(async () => {
     contractAsVoter = voting.connect(voter);
 });
 
-describe("Voting functionality", () => {
+describe("Initialization", () => {
     it("Initializes the state variables correctly", async () => {
         const optionA = await voting.optionA();
         const optionB = await voting.optionB();
@@ -60,7 +60,9 @@ describe("Voting functionality", () => {
         expect(await voting.getVotingPhase()).to.equal("Registration");
         expect(await voting.manager()).to.equal(manager.address);
     });
+});
 
+describe("Manager functions", () => {
     it("Sets the next phase", async () => {
         expect(await voting.getVotingPhase()).to.equal("Registration");
 

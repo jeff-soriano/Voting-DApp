@@ -6,7 +6,7 @@ import "./Voting.sol";
 
 /// @author Jeff Soriano
 /// @title A factory that generates Voting contracts
-contract VotingContract {
+contract VotingFactory {
     address[] public votingContracts;
 
     /// Creates a Voting contract

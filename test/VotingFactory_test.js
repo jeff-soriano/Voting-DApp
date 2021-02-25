@@ -1,0 +1,25 @@
+const { expect, assert } = require("chai");
+
+describe("VotingFactory functionality", () => {
+    it("Creates a Voting contract", async () => {
+        const VotingFactory = await ethers.getContractFactory("VotingFactory");
+        const votingFactory = await VotingFactory.deploy();
+        const accounts = await ethers.getSigners();
+        const manager = accounts[0];
+
+        await votingFactory.deployed();
+
+        await votingFactory.createVotingContract(
+            manager.address,
+            "Chocolate or Vanilla?",
+            "Chocolate",
+            "Vanilla",
+            1000,
+            1000
+        );
+
+        const votingAddresses = await votingFactory.getVotingContracts();
+
+        assert(votingAddresses[0]);
+    });
+});

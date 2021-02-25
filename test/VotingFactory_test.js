@@ -1,14 +1,18 @@
 const { expect, assert } = require("chai");
 
+let manager, votingFactory;
+beforeEach(async () => {
+    const VotingFactory = await ethers.getContractFactory("VotingFactory");
+    const accounts = await ethers.getSigners();
+
+    votingFactory = await VotingFactory.deploy();
+    manager = accounts[0];
+
+    await votingFactory.deployed();
+});
+
 describe("VotingFactory functionality", () => {
     it("Creates a Voting contract", async () => {
-        const VotingFactory = await ethers.getContractFactory("VotingFactory");
-        const votingFactory = await VotingFactory.deploy();
-        const accounts = await ethers.getSigners();
-        const manager = accounts[0];
-
-        await votingFactory.deployed();
-
         await votingFactory.createVotingContract(
             manager.address,
             "Chocolate or Vanilla?",
